@@ -3,9 +3,10 @@
 import sys
 
 
-def get_err_msg(path: str, err: Exception) -> str:
-    return f"Error opening file '{path}': {err}"
-
+def print_err_msg(path: str, err: Exception) -> str:
+    sys.stderr.write(f"[STDERR] Error opening file '{path}': {err}\n")
+    sys.stderr.flush()
+    
 
 def print_content(text: str) -> None:
     print("---\n")
@@ -18,7 +19,7 @@ def main() -> None:
     args = sys.argv[1:]
 
     if not args or len(args) > 1:
-        print(f"Usage: {script_name} <file>")
+        sys.stderr.write(f"Usage: {script_name} <file>\n")
         return
 
     path = args[0]
@@ -35,7 +36,7 @@ def main() -> None:
         print(f"File '{path}' closed.")
 
     except (FileNotFoundError, PermissionError) as e:
-        print(get_err_msg(path, e))
+        print_err_msg(path, e)
         return
 
     print("\nTransform data:")
@@ -46,7 +47,11 @@ def main() -> None:
 
     print_content(text)
 
-    new_path = input("Enter new file name (or empty): ")
+
+    print("Enter new file name (or empty): ", end="")
+    sys.stdout.flush()
+
+    new_path = sys.stdin.readline().rstrip()
 
     if not new_path:
         print("Not saving data.")
@@ -60,7 +65,8 @@ def main() -> None:
         f.close()
 
     except (FileNotFoundError, PermissionError) as e:
-        print(get_err_msg(new_path, e))
+        print_err_msg(new_path, e)
+        print("Data not saved.")
 
 
 if __name__ == "__main__":
