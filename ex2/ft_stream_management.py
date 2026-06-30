@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 
 import sys
+import typing
 
 
-def print_err_msg(path: str, err: Exception) -> str:
+def print_err_msg(path: str, err: Exception) -> None:
     sys.stderr.write(f"[STDERR] Error opening file '{path}': {err}\n")
     sys.stderr.flush()
 
@@ -28,16 +29,19 @@ def main() -> None:
     print(f"Accessing file '{path}'")
     text = ""
 
+    f: typing.IO | None = None
     try:
         f = open(path, 'r')
         text = f.read()
         print_content(text)
-        f.close()
-        print(f"File '{path}' closed.")
 
     except (FileNotFoundError, PermissionError) as e:
         print_err_msg(path, e)
         return
+    finally:
+        if f is not None:
+            print(f"File '{path}' closed.")
+            f.close()
 
     print("\nTransform data:")
 
@@ -57,15 +61,19 @@ def main() -> None:
         return
 
     print(f"Saving data to '{new_path}'")
+    
+    f = None
     try:
         f = open(new_path, 'w')
         f.write(text)
         print(f"Data saved in file '{new_path}'.")
-        f.close()
 
     except (FileNotFoundError, PermissionError) as e:
         print_err_msg(new_path, e)
         print("Data not saved.")
+    finally:
+        if f is not None:
+            f.close()
 
 
 if __name__ == "__main__":
