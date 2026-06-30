@@ -28,9 +28,7 @@ def main() -> None:
         print(f.read(), end="")
         print("\n---")
 
-    except FileNotFoundError as e:
-        print(get_err_msg(path, e))
-    except PermissionError as e:
+    except OSError as e:
         print(get_err_msg(path, e))
     finally:
         if f is not None:

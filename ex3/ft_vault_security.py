@@ -9,9 +9,7 @@ def secure_archive(file: str, mode: str, out: str = "") -> tuple[bool, str]:
                 f.write(out)
                 return (True, "Content successfully written to file")
 
-    except FileNotFoundError as e:
-        return (False, f"{e}")
-    except PermissionError as e:
+    except OSError as e:
         return (False, f"{e}")
 
     return (True, 't')

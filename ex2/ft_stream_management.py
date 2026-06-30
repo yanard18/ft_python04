@@ -35,7 +35,7 @@ def main() -> None:
         text = f.read()
         print_content(text)
 
-    except (FileNotFoundError, PermissionError) as e:
+    except OSError as e:
         print_err_msg(path, e)
         return
     finally:
@@ -68,7 +68,7 @@ def main() -> None:
         f.write(text)
         print(f"Data saved in file '{new_path}'.")
 
-    except (FileNotFoundError, PermissionError) as e:
+    except OSError as e:
         print_err_msg(new_path, e)
         print("Data not saved.")
     finally:
