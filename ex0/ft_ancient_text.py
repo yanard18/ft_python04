@@ -3,11 +3,11 @@
 import sys
 
 
-def get_err_msg(path: str, err: exception) -> str:
+def get_err_msg(path: str, err: Exception) -> str:
     return f"error opening file '{path}': {err}"
 
 
-def main() -> none:
+def main() -> None:
     script_name = sys.argv[0]
     args = sys.argv[1:]
 
@@ -28,9 +28,9 @@ def main() -> none:
         f.close()
         print(f"file '{path}' closed.")
 
-    except filenotfounderror as e:
+    except FileNotFoundError as e:
         print(get_err_msg(path, e))
-    except permissionerror as e:
+    except PermissionError as e:
         print(get_err_msg(path, e))
 
 

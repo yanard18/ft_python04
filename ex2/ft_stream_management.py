@@ -6,7 +6,7 @@ import sys
 def print_err_msg(path: str, err: Exception) -> str:
     sys.stderr.write(f"[STDERR] Error opening file '{path}': {err}\n")
     sys.stderr.flush()
-    
+
 
 def print_content(text: str) -> None:
     print("---\n")
@@ -46,7 +46,6 @@ def main() -> None:
         text = "\n".join([line + "#" for line in lines]) + "\n"
 
     print_content(text)
-
 
     print("Enter new file name (or empty): ", end="")
     sys.stdout.flush()
