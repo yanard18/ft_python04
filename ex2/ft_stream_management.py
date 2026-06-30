@@ -61,7 +61,7 @@ def main() -> None:
         return
 
     print(f"Saving data to '{new_path}'")
-    
+
     f = None
     try:
         f = open(new_path, 'w')
