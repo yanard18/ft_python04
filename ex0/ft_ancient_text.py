@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import sys
+import typing
 
 
 def get_err_msg(path: str, err: Exception) -> str:
@@ -20,18 +21,21 @@ def main() -> None:
     print("=== cyber archives recovery ===")
     print(f"accessing file '{path}'")
 
+    f: typing.IO | None = None
     try:
         f = open(path)
         print("---\n")
         print(f.read(), end="")
         print("\n---")
-        f.close()
-        print(f"file '{path}' closed.")
 
     except FileNotFoundError as e:
         print(get_err_msg(path, e))
     except PermissionError as e:
         print(get_err_msg(path, e))
+    finally:
+        if f is not None:
+            print(f"file '{path}' closed.")
+            f.close()
 
 
 if __name__ == "__main__":
